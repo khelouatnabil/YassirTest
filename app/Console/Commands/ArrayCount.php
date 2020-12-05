@@ -11,14 +11,14 @@ class ArrayCount extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'array:count {list}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Count number of arrays in a nested list';
 
     /**
      * Create a new command instance.
@@ -33,10 +33,30 @@ class ArrayCount extends Command
     /**
      * Execute the console command.
      *
-     * @return int
+     * @return void
      */
     public function handle()
     {
-        return 0;
+         $data = $this->argument('list');
+        //$data = [1,2,[3,4,[5,6,[7],8,9],12],11];
+        $sum = 1;
+        //$this->nestedListCountOfArrayType($data,$sum);
+        $this->nestedListCountOfStringType($data,$sum);
+    }
+     private function nestedListCountOfArrayType(array $data,&$sum)
+    {
+        foreach($data as $value)
+        {
+            if(is_array($value))
+            {
+                $sum++;
+                $this->nestedListCountOfArrayType( $value,$sum);
+            }
+        }
+    }
+    private function nestedListCountOfStringType($data)
+    {
+
+        print(substr_count($data,"["));
     }
 }

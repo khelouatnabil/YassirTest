@@ -11,14 +11,14 @@ class StringReplace extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'string:replace';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Replace strings';
 
     /**
      * Create a new command instance.
@@ -33,10 +33,19 @@ class StringReplace extends Command
     /**
      * Execute the console command.
      *
-     * @return int
+     * @return void
      */
     public function handle()
     {
-        return 0;
+        $pattern = $this->ask('Insert your pattern:');
+        $phrase = $this->ask('Insert your phrase:');
+        $ar = explode(" ",$phrase);
+        foreach($ar as $key=>$value)
+        {
+            $delimiter = '@\{'.$key.'\}@';
+            $pattern = preg_replace($delimiter, $value, $pattern);
+
+        }
+        print($pattern);
     }
 }
